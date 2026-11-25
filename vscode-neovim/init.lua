@@ -34,7 +34,14 @@ require("lazy").setup({
             -- Put your configuration here
         })
     end
-},
+},{
+  "justinmk/vim-sneak",
+  init = function()
+    vim.g["sneak#label"] = 1        -- 开启标签跳转模式（类似 easymotion）
+    vim.g["sneak#s_next"] = 1       -- 按 s/S 继续跳到下一个/上一个匹配
+    vim.g["sneak#use_ic_scs"] = 1   -- 智能大小写
+  end,
+}
 })
 
 
