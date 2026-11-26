@@ -83,11 +83,40 @@ vim.cmd('nmap k gk')
 -- Disable Q
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disabled (was Ex mode)" })
 
--- Window scrolling with cursor centering
+-- These are defined in VSCode keybindings.json
 -- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 -- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
-vim.keymap.set("n", "n", "nzzzv", { desc = "Next search match (centered)" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search match (centered)" })
+-- keybindings.json:
+-- {
+--   "key": "ctrl+d",
+--   "command": "runCommands",
+--   "when": "editorTextFocus && neovim.init && neovim.mode == 'normal'",
+--   "args": {
+--     "commands": [
+--       { "command": "editorScroll", "args": { "to": "down", "by": "halfPage" } },
+--       { "command": "cursorMove", "args": { "to": "viewPortCenter" } }
+--     ]
+--   }
+-- },
+-- {
+--   "key": "ctrl+u",
+--   "command": "runCommands",
+--   "when": "editorTextFocus && neovim.init && neovim.mode == 'normal'",
+--   "args": {
+--     "commands": [
+--       { "command": "editorScroll", "args": { "to": "up", "by": "halfPage" } },
+--       { "command": "cursorMove", "args": { "to": "viewPortCenter" } }
+--     ]
+--   }
+-- }
+vim.keymap.set("n", "n", function()
+  vim.cmd.normal({"n", bang = true })
+  require("vscode").action("revealLine", { args = { lineNumber = vim.fn.line(".") - 1, at = "center" } })
+end, { desc = "Next search match (centered)" })
+vim.keymap.set("n", "N", function()
+  vim.cmd.normal({"N", bang = true })
+  require("vscode").action("revealLine", { args = { lineNumber = vim.fn.line(".") - 1, at = "center" } })
+end, { desc = "Previous search match (centered)" })
 
 -- Join lines without moving cursor position
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines without moving cursor" })
